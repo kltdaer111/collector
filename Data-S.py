@@ -3,6 +3,7 @@ import thread, threading
 import mysql.connector
 import socket, select
 import copy
+import pickle
 
 MIN_SIZE = 5
 
