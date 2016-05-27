@@ -5,20 +5,29 @@ import pickle
 import socket
 import time
 TYPE_AMOUNT = 10
-PORT_TUPLE = (9455,9456,9457,9458)
+PORT_TUPLE = (19455,19456,19457,19458,19568,19569,19570,19571,19572,19573)
 data_detail = {
+    'factory_id' : 0,
     'gate_id' : 0,
     'node_id' : 0,
-    'state' : 0,
-    'date' : 0,
+    'record_time' : 0,
+    'parameter_type1' : 0,
+    'parameter_value1' : 0,
+    'parameter_type2' : 0,
+    'parameter_value2' : 0,
+    'parameter_type3' : 0,
+    'parameter_value4' : 0,
     }
 
 class Node:
     last_time = 0
-    def __init__(self, sock, gate_id, node_id, interval):
+    def __init__(self, sock, factory_id, gate_id, node_id, interval):
         self.sock = sock
         self.gate_id = gate_id
         self.node_id = node_id
+        self.type1 = random.randint(1,5)
+        self.type2 = random.randint(6,10)
+        self.type3 = random.randint(11,15)
         self.interval = interval
         
     def update(self, time):
@@ -26,10 +35,16 @@ class Node:
             self.send_info(time)
 
     def send_info(self, time):
+        data_detail.factory_id = self.factory_id
         data_detail.gate_id = self.gate_id
         data_detail.node_id = self.node_id
-        data_detail.state = random.randint(1,5)
-        data_detail.date = time
+        data_detail.parameter_type1 = self.type1
+        data_detail.parameter_value1 = random.randint(1,100)
+        data_detail.parameter_type2 = self.type2
+        data_detail.parameter_value2 = random.randint(1,100)
+        data_detail.parameter_type3 = self.type3
+        data_detail.parameter_value3 = random.randint(1,100)
+        data_detail.record_time = time
         self.last_time = time
         info = pickle.dumps(data_detail)
         info += '####'
@@ -53,7 +68,12 @@ if __name__ == '__main__':
         gate = Gate(num, port)
         num += 1
     while True:
-        time = int(time.time())
+        begin_time = time.time()
         for gate in gates:
-            for node in gate.nodes
+            for node in gate.nodes:
+                node.update(int(begin_time))
+        end_time = time.time
+        duration = end_time - begin_time
+        if duration < 1:
+            time.sleep(1 - duration)
         
