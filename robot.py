@@ -9,7 +9,7 @@ DATA_S_IP = '127.0.0.1'
 DATA_S_PORT = 8484
 
 TYPE_AMOUNT = 10
-PORT_TUPLE = (19455,19456,19457,19458,19568,19569,19570,19571,19572,19573)
+#PORT_TUPLE = (19455,19456,19457,19458,19568,19569,19570,19571,19572,19573)
 data_detail = {
 	'factory_id' : 0,
 	'gate_id' : 0,
@@ -59,7 +59,7 @@ class Node:
 		self.sock.send(info)
 
 class Gate:
-	nodes = []
+	nodes = []		#这个NODES属于类？会在71行不停的增加
 	def __init__(self, factory_id, gate_id, port):
 		self.gate_id = gate_id
 		self.port = port
@@ -79,17 +79,23 @@ if __name__ == '__main__':
 		for j in range(1,random.randint(1,6)):
 			gates.append(Gate(i, j, port))
 			port += 1
+			print 'gate_nodes_amount:' + str(gates[-1].nodes_amount)
 			total_nodes_amount += gates[-1].nodes_amount
+	print 'TOTOAL_NODES_AMOUNT:' + str(total_nodes_amount)
 	while True:
 		begin_time = time.time()
 		nodes_amount = 0
+		total_nodes_amount = 0
 		for gate in gates:
 			for node in gate.nodes:
+				total_nodes_amount += 1
 				if node.update(int(begin_time)):
 					nodes_amount += 1
 		end_time = time.time()
 		duration = end_time - begin_time
-		print 'UPDATE_NODES_AMOUNT:' + str(nodes_amount)
+		if nodes_amount > 0:
+		   print 'UPDATE_NODES_AMOUNT:' + str(nodes_amount)
+		print 'TOTOAL_NODES_AMOUNT:' + str(total_nodes_amount)
 		if duration < 1:
 			time.sleep(1 - duration)
 		
