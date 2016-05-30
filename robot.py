@@ -59,8 +59,9 @@ class Node:
 		self.sock.send(info)
 
 class Gate:
-	nodes = []		#这个NODES属于类？会在71行不停的增加
+	#nodes = []		#这个NODES属于类？会在71行不停的增加
 	def __init__(self, factory_id, gate_id, port):
+		self.nodes = []
 		self.gate_id = gate_id
 		self.port = port
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

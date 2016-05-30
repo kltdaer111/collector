@@ -12,9 +12,8 @@ lock = thread.allocate_lock()
 con = threading.Condition(lock)
 
 def push_to_database():
-	cnx = mysql.connector.connect(user='root', password='abcdef',
-								  host='192.168.253.133',
-								  database='data')
+	cnx = mysql.connector.connect(user='root', password='juxienet',
+                host='kakaroot.cn', port=53721,	database='work')
 	cursor = cnx.cursor()
 	insert_data = ("INSERT INTO wuxi "
 			  "(factory_id, gate_id, node_id, record_time, parameter_type1, parameter_value1, parameter_type2, parameter_value2, parameter_type3, parameter_value3) "
